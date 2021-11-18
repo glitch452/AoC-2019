@@ -1,14 +1,14 @@
-﻿<Properties StartupConfiguration="{648ED450-3238-49A6-B3F3-2655FA67040D}|Unit Tests">
+﻿<Properties StartupConfiguration="{C9F1902C-413D-4D88-AA2C-37187A59CD6F}|Test Case 1">
   <MonoDevelop.Ide.ItemProperties.2019__day__3__crossed__wires__tests PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="2019_day_3_crossed_wires_tests/PointTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="2019_day_3_crossed_wires_tests/CrossedWiresTests.cs">
     <Files>
-      <File FileName="2019_day_3_crossed_wires/Program.cs" Line="36" Column="52" />
-      <File FileName="2019_day_3_crossed_wires/LineSegment.cs" Line="31" Column="60" />
-      <File FileName="2019_day_3_crossed_wires/CrossedWires.cs" Line="36" Column="34" />
-      <File FileName="2019_day_3_crossed_wires/Point.cs" Line="28" Column="6" />
-      <File FileName="2019_day_3_crossed_wires_tests/LineSegmentTest.cs" Line="35" Column="52" NotebookId="1" />
-      <File FileName="2019_day_3_crossed_wires_tests/UnitTest1.cs" Line="82" Column="1" NotebookId="1" />
-      <File FileName="2019_day_3_crossed_wires_tests/PointTest.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="2019_day_3_crossed_wires/Program.cs" Line="35" Column="1" />
+      <File FileName="2019_day_3_crossed_wires/LineSegment.cs" Line="54" Column="69" />
+      <File FileName="2019_day_3_crossed_wires/CrossedWires.cs" Line="54" Column="1" />
+      <File FileName="2019_day_3_crossed_wires/Point.cs" />
+      <File FileName="2019_day_3_crossed_wires_tests/LineSegmentTest.cs" Line="91" Column="15" NotebookId="1" />
+      <File FileName="2019_day_3_crossed_wires_tests/PointTest.cs" NotebookId="1" />
+      <File FileName="2019_day_3_crossed_wires_tests/CrossedWiresTests.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +17,7 @@
             <Node name="2019_day_3_crossed_wires" expanded="True" />
             <Node name="2019_day_3_crossed_wires_tests" expanded="True">
               <Node name="Dependencies" expanded="True" />
-              <Node name="PointTest.cs" selected="True" />
+              <Node name="CrossedWiresTests.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -26,7 +26,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.2019__day__3__crossed__wires PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

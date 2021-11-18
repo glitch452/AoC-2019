@@ -11,8 +11,8 @@ namespace _2019_day_3_crossed_wires
         const string INVALID_INPUT_MSG = "Invalid Input. Please provide a comma separated list of directions i.e. U2,D5,R6,L1";
         static readonly Regex DIR_PATTERN = new Regex(@"^([UDLR])([1-9][0-9]*)$");
 
-        public string[] Instructions1 { get; private set; }
-        public string[] Instructions2 { get; private set; }
+        public (string direction, int magnitude)[] Instructions1 { get; private set; }
+        public (string direction, int magnitude)[] Instructions2 { get; private set; }
 
         public List<LineSegment> Segments1 { get; private set; }
         public List<LineSegment> Segments2 { get; private set; }
@@ -52,27 +52,21 @@ namespace _2019_day_3_crossed_wires
             return best is null ? 0 : best.ManhattanDistance;
         }
 
-        static List<LineSegment> convertInstructionsToSegments(string[] instructions)
+        static List<LineSegment> convertInstructionsToSegments((string direction, int magnitude)[] instructions)
         {
-            List<LineSegment> result = new List<LineSegment>(instructions.Length);
-            Point current = new Point(0, 0);
+            var result = new List<LineSegment>(instructions.Length);
+            var current = new Point(0, 0);
 
-            foreach (var dir in instructions)
+            foreach (var (direction, magnitude) in instructions)
             {
-                var group = DIR_PATTERN.Match(dir).Groups;
-                var direction = group[1].ToString();
-                var magnitude = int.Parse(group[2].ToString());
-                Point next;
-
-                switch (direction)
+                Point next = direction switch
                 {
-                    case "D": magnitude *= -1; goto case "U";
-                    case "U": next = new Point(current.X, current.Y + magnitude); break;
-                    case "L": magnitude *= -1; goto case "R";
-                    case "R": next = new Point(current.X + magnitude, current.Y); break;
-                    default: throw new ArgumentException(INVALID_INPUT_MSG);
-                }
-
+                    "D" => new Point(current.X, current.Y - magnitude),
+                    "U" => new Point(current.X, current.Y + magnitude),
+                    "L" => new Point(current.X - magnitude, current.Y),
+                    "R" => new Point(current.X + magnitude, current.Y),
+                    _ => throw new ArgumentException(INVALID_INPUT_MSG),
+                };
                 result.Add(new LineSegment(current, next));
                 current = next;
             }
@@ -80,22 +74,29 @@ namespace _2019_day_3_crossed_wires
             return result;
         }
 
-        static string[] parseInput(string wire)
+        static (string direction, int magnitude)[] parseInput(string wire)
         {
             if (wire is null || wire.Length < 1)
             {
                 throw new ArgumentException(INVALID_INPUT_MSG);
             }
 
-            var result = wire.Split(',');
-            foreach (var dir in result)
-            {
-                if (!DIR_PATTERN.IsMatch(dir))
+            var instructions = wire.Split(',');
+
+            var result = instructions.Select((ins, i) => {
+
+                var match = DIR_PATTERN.Match(ins);
+                if (!match.Success)
                 {
                     throw new ArgumentException(INVALID_INPUT_MSG);
                 }
-            }
-            return result;
+
+                var direction = match.Groups[1].ToString();
+                var magnitude = int.Parse(match.Groups[2].ToString());
+                return (direction, magnitude);
+            });
+
+            return result.ToArray();
         }
 
     }
