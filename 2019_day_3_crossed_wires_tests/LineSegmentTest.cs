@@ -31,15 +31,15 @@ namespace _2019_day_3_crossed_wires_tests
         [Fact]
         public void ItCorrectlyIdentifiesHorizontalLines()
         {
-            Assert.True(horizontal_segment.IsHorizontal());
-            Assert.False(vertical_segment.IsHorizontal());
+            Assert.True(horizontal_segment.IsHorizontal);
+            Assert.False(vertical_segment.IsHorizontal);
         }
 
         [Fact]
         public void ItCorrectlyIdentifiesVerticalLines()
         {
-            Assert.True(vertical_segment.IsVertical());
-            Assert.False(horizontal_segment.IsVertical());
+            Assert.True(vertical_segment.IsVertical);
+            Assert.False(horizontal_segment.IsVertical);
         }
 
         [Fact]

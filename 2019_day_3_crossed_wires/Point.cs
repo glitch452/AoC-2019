@@ -3,9 +3,9 @@ namespace _2019_day_3_crossed_wires
 {
     public class Point
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int ManhattanDistance { get; private set; }
+        public int X { get; }   
+        public int Y { get; }
+        public int ManhattanDistance { get; }
 
         public Point(int x, int y)
         {

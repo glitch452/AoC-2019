@@ -6,4 +6,7 @@
     <RootNamespace>_2019_day_3_crossed_wires</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
 </Project>
