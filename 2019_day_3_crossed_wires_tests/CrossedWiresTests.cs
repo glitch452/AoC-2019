@@ -124,6 +124,10 @@ namespace _2019_day_3_crossed_wires_tests
             var score = cw.ComputeClosestIntersection();
             Assert.Equal(expected_score, score);
             Assert.Equal(expected_point, cw.ClosestIntersection);
+
+            var expected_steps = 610;
+            var steps = cw.ComputeFewestSteps();
+            Assert.Equal(expected_steps, steps);
         }
 
         [Fact]
@@ -135,6 +139,10 @@ namespace _2019_day_3_crossed_wires_tests
             var score = cw.ComputeClosestIntersection();
             Assert.Equal(expected_score, score);
             Assert.Equal(expected_point, cw.ClosestIntersection);
+
+            var expected_steps = 410;
+            var steps = cw.ComputeFewestSteps();
+            Assert.Equal(expected_steps, steps);
         }
 
 
@@ -152,6 +160,10 @@ namespace _2019_day_3_crossed_wires_tests
             //Console.WriteLine($"score: {score} ({cw.Best.X},{cw.Best.Y})");
             Assert.Equal(expected_score, score);
             Assert.Equal(expected_point, cw.ClosestIntersection);
+
+            var expected_steps = 27330;
+            var steps = cw.ComputeFewestSteps();
+            Assert.Equal(expected_steps, steps);
         }
     }
 }

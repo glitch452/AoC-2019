@@ -1,6 +1,14 @@
 ﻿using System;
 namespace _2019_day_3_crossed_wires
 {
+    public enum Direction
+    {
+        U,
+        D,
+        L,
+        R
+    }
+
     public class LineSegment
     {
         public Point P1 { get; }
@@ -15,6 +23,8 @@ namespace _2019_day_3_crossed_wires
         public int MaxY { get; }
 
         public int Length { get; }
+
+        public Direction Direction { get; }
 
         public LineSegment(Point p1, Point p2)
         {
@@ -33,12 +43,53 @@ namespace _2019_day_3_crossed_wires
             MaxX = Math.Max(P1.X, P2.X);
             MinY = Math.Min(P1.Y, P2.Y);
             MaxY = Math.Max(P1.Y, P2.Y);
+
             Length = IsHorizontal ? MaxX - MinX : MaxY - MinY;
+
+            if (IsHorizontal) {
+                Direction = P1.X < P2.X ? Direction.R : Direction.L;
+            } else {
+                Direction = P1.Y < P2.Y ? Direction.U : Direction.D;
+            }
         }
 
         public bool IsOverlapping(LineSegment other)
         {
             return P1.Y == other.P1.Y && (!(MinX > other.MaxX || MaxX < other.MinX));
+        }
+
+        
+        public Point GetIntersectionWithFewestSteps(LineSegment other)
+        {
+            var h = IsHorizontal ? this : other;
+            var v = IsVertical ? this : other;
+
+            // Tests if the LineSegments interesect in any way before testing if they overlap
+            if (!(h.MinX > v.MaxX || h.MaxX < v.MinX) && !(v.MinY > h.MaxY || v.MaxY < h.MinY))
+            {
+                var x = v.P1.X;
+                var y = h.P1.Y;
+
+                // Both Are Horizontal and overlapping
+                if (v.IsHorizontal)
+                {
+                    var overlapMin = Math.Max(MinX, other.MinX);
+                    var overlapMax = Math.Min(MaxY, other.MaxY);
+                    x = Direction == other.Direction && Direction == Direction.L ? overlapMax : overlapMin;
+                }
+
+                // Both are Vertical and overlapping
+                if (h.IsVertical)
+                {
+                    var overlapMin = Math.Max(MinY, other.MinY);
+                    var overlapMax = Math.Min(MaxY, other.MaxY);
+                    y = Direction == other.Direction && Direction == Direction.D ? overlapMax : overlapMin;
+                }
+
+                return new Point(x, y);
+            }
+
+            return null;
         }
 
         public Point GetIntersectionWithBestManDist(LineSegment other)

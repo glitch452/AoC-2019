@@ -35,7 +35,9 @@ namespace _2019_day_3_crossed_wires
 
                     var cw = new CrossedWires(wire1, wire2);
                     var distance = cw.ComputeClosestIntersection();
-                    Console.WriteLine($"The distance is: {distance}");
+                    var steps = cw.ComputeFewestSteps();
+                    Console.WriteLine($"The manhattan distance is: {distance}");
+                    Console.WriteLine($"The fewest number of steps is: {steps}");
                     return;
                 }
                 catch(Exception ex)
