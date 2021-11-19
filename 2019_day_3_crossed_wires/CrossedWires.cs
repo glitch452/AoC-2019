@@ -17,7 +17,7 @@ namespace _2019_day_3_crossed_wires
         public List<LineSegment> Segments1 { get; }
         public List<LineSegment> Segments2 { get; }
 
-        public Point Best { get; private set; }
+        public Point ClosestIntersection { get; private set; }
 
 
         public CrossedWires(string wire1, string wire2)
@@ -29,26 +29,32 @@ namespace _2019_day_3_crossed_wires
             Segments2 = ConvertInstructionsToSegments(Instructions2);
         }
 
-        public int Solve()
+        public int ComputeIntersectionWithFewestSteps()
         {
-            Best = null;
+
+            return 0;
+        }
+
+        public int ComputeClosestIntersection()
+        {
+            ClosestIntersection = null;
 
             foreach (var seg1 in Segments1)
             {
                 foreach (var seg2 in Segments2)
                 {
-                    var intersection = seg1.GetBestIntersection(seg2);
+                    var intersection = seg1.GetIntersectionWithBestManDist(seg2);
                     if (!(intersection is null) &&
                         intersection.ManhattanDistance > 0 &&
-                        (Best is null || intersection.ManhattanDistance < Best.ManhattanDistance)
+                        (ClosestIntersection is null || intersection.ManhattanDistance < ClosestIntersection.ManhattanDistance)
                        )
                     {
-                        Best = intersection;
+                        ClosestIntersection = intersection;
                     }
                 }
             }
 
-            return Best is null ? 0 : Best.ManhattanDistance;
+            return ClosestIntersection is null ? 0 : ClosestIntersection.ManhattanDistance;
         }
 
         static List<LineSegment> ConvertInstructionsToSegments((string direction, int magnitude)[] instructions)

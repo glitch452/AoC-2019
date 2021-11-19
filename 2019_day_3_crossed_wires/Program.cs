@@ -34,7 +34,7 @@ namespace _2019_day_3_crossed_wires
                     }
 
                     var cw = new CrossedWires(wire1, wire2);
-                    var distance = cw.Solve();
+                    var distance = cw.ComputeClosestIntersection();
                     Console.WriteLine($"The distance is: {distance}");
                     return;
                 }

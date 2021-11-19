@@ -89,7 +89,7 @@ namespace _2019_day_3_crossed_wires_tests
         public void ItShouldProduceAScoreOfZeroWithNoIntersections()
         {
             var cw = new CrossedWires("L4", "U5");
-            var score = cw.Solve();
+            var score = cw.ComputeClosestIntersection();
             var expected_score = 0;
             Assert.Equal(expected_score, score);
         }
@@ -100,9 +100,9 @@ namespace _2019_day_3_crossed_wires_tests
             var cw = new CrossedWires("L4,U3,R8", "U5");
             var expected_point = new Point(0, 3);
             var expected_score = 3;
-            var score = cw.Solve();
+            var score = cw.ComputeClosestIntersection();
             Assert.Equal(expected_score, score);
-            Assert.Equal(expected_point, cw.Best);
+            Assert.Equal(expected_point, cw.ClosestIntersection);
         }
 
         [Fact]
@@ -111,9 +111,9 @@ namespace _2019_day_3_crossed_wires_tests
             var cw = new CrossedWires("R8,U5,L5,D3", "U7,R6,D4,L4");
             var expected_point = new Point(3, 3);
             var expected_score = 6;
-            var score = cw.Solve();
+            var score = cw.ComputeClosestIntersection();
             Assert.Equal(expected_score, score);
-            Assert.Equal(expected_point, cw.Best);
+            Assert.Equal(expected_point, cw.ClosestIntersection);
         }
 
         [Fact]
@@ -122,9 +122,9 @@ namespace _2019_day_3_crossed_wires_tests
             var cw = new CrossedWires("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83");
             var expected_point = new Point(155, 4);
             var expected_score = 159;
-            var score = cw.Solve();
+            var score = cw.ComputeClosestIntersection();
             Assert.Equal(expected_score, score);
-            Assert.Equal(expected_point, cw.Best);
+            Assert.Equal(expected_point, cw.ClosestIntersection);
         }
 
         [Fact]
@@ -133,9 +133,9 @@ namespace _2019_day_3_crossed_wires_tests
             var cw = new CrossedWires("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51", "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7");
             var expected_point = new Point(124, 11);
             var expected_score = 135;
-            var score = cw.Solve();
+            var score = cw.ComputeClosestIntersection();
             Assert.Equal(expected_score, score);
-            Assert.Equal(expected_point, cw.Best);
+            Assert.Equal(expected_point, cw.ClosestIntersection);
         }
 
 
@@ -149,10 +149,10 @@ namespace _2019_day_3_crossed_wires_tests
             );
             var expected_point = new Point(-12, -1614);
             var expected_score = 1626;
-            var score = cw.Solve();
+            var score = cw.ComputeClosestIntersection();
             //Console.WriteLine($"score: {score} ({cw.Best.X},{cw.Best.Y})");
             Assert.Equal(expected_score, score);
-            Assert.Equal(expected_point, cw.Best);
+            Assert.Equal(expected_point, cw.ClosestIntersection);
         }
     }
 }

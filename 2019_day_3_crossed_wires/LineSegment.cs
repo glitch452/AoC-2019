@@ -3,8 +3,8 @@ namespace _2019_day_3_crossed_wires
 {
     public class LineSegment
     {
-        public Point Pt1 { get; }
-        public Point Pt2 { get; }
+        public Point P1 { get; }
+        public Point P2 { get; }
 
         public bool IsHorizontal { get; }
         public bool IsVertical { get; }
@@ -14,66 +14,68 @@ namespace _2019_day_3_crossed_wires
         public int MinY { get; }
         public int MaxY { get; }
 
-        public LineSegment(Point pt1, Point pt2)
+        public LineSegment(Point p1, Point p2)
         {
-            Pt1 = pt1;
-            Pt2 = pt2;
+            P1 = p1;
+            P2 = p2;
 
-            IsHorizontal = Pt1.Y == Pt2.Y;
-            IsVertical = Pt1.X == Pt2.X;
+            IsHorizontal = P1.Y == P2.Y;
+            IsVertical = P1.X == P2.X;
 
             if (!IsHorizontal && !IsVertical)
             {
                 throw new ArgumentException("Line Segment must be horizintal or vertical");
             }
 
-            MinX = Math.Min(Pt1.X, Pt2.X);
-            MaxX = Math.Max(Pt1.X, Pt2.X);
-            MinY = Math.Min(Pt1.Y, Pt2.Y);
-            MaxY = Math.Max(Pt1.Y, Pt2.Y);
-    }
+            MinX = Math.Min(P1.X, P2.X);
+            MaxX = Math.Max(P1.X, P2.X);
+            MinY = Math.Min(P1.Y, P2.Y);
+            MaxY = Math.Max(P1.Y, P2.Y);
+        }
 
         public bool IsOverlapping(LineSegment other)
         {
-            return Pt1.Y == other.Pt1.Y && (!(MinX > other.MaxX || MaxX < other.MinX));
+            return P1.Y == other.P1.Y && (!(MinX > other.MaxX || MaxX < other.MinX));
         }
 
-        public Point GetBestIntersection(LineSegment other)
+        public Point GetIntersectionWithBestManDist(LineSegment other)
         {
             var h = IsHorizontal ? this : other;
             var v = IsVertical ? this : other;
-            if (IsHorizontal && other.IsHorizontal)
+
+            // Tests if the LineSegments interesect in any way before testing if they overlap
+            if (!(h.MinX > v.MaxX || h.MaxX < v.MinX) && !(v.MinY > h.MaxY || v.MaxY < h.MinY))
             {
-                var isOverlapping = Pt1.Y == other.Pt1.Y && !(MinX > other.MaxX || MaxX < other.MinX);
-                if (isOverlapping)
+                var x = v.P1.X;
+                var y = h.P1.Y;
+
+                // Both Are Horizontal and overlapping
+                if (v.IsHorizontal)
                 {
                     var overlapMin = Math.Max(MinX, other.MinX);
                     var overlapMax = Math.Min(MaxX, other.MaxX);
-                    if (overlapMax <= 0) { return new Point(overlapMax, Pt1.Y); }
-                    if (overlapMin >= 0) { return new Point(overlapMin, Pt1.Y); }
-                    return new Point(0, Pt1.Y);
+                    if (overlapMax <= 0) { return new Point(overlapMax, y); }
+                    if (overlapMin >= 0) { return new Point(overlapMin, y); }
+                    return new Point(0, y);
                 }
-            }
-            else if (IsVertical && other.IsVertical)
-            {
-                var isOverlapping = Pt1.X == other.Pt1.X && !(MinY > other.MaxY || MaxY < other.MinY);
-                if (isOverlapping)
+
+                // Both are Vertical and overlapping
+                if (h.IsVertical)
                 {
                     var overlapMin = Math.Max(MinY, other.MinY);
                     var overlapMax = Math.Min(MaxY, other.MaxY);
-                    if (overlapMax <= 0) { return new Point(Pt1.X, overlapMax); }
-                    if (overlapMin >= 0) { return new Point(Pt1.X, overlapMin); }
-                    return new Point(Pt1.X, 0);
+                    if (overlapMax <= 0) { return new Point(x, overlapMax); }
+                    if (overlapMin >= 0) { return new Point(x, overlapMin); }
+                    return new Point(x, 0);
                 }
+
+                return new Point(x, y);
             }
-            else if (!(h.MinX > v.Pt1.X || h.MaxX < v.Pt1.X) && !(v.MinY > h.Pt1.Y || v.MaxY < h.Pt1.Y))
-            {
-                return new Point(v.Pt1.X, h.Pt1.Y);
-            }
+            
             return null;
         }
 
-        public override int GetHashCode() => (Pt1, Pt2).GetHashCode();
+        public override int GetHashCode() => (P1, P2).GetHashCode();
         public override bool Equals(object obj) => Equals(obj as LineSegment);
 
         public bool Equals(LineSegment ls)
@@ -81,12 +83,12 @@ namespace _2019_day_3_crossed_wires
             if (ls is null) { return false; }
             if (ReferenceEquals(this, ls)) { return true; }
             if (GetType() != ls.GetType()) { return false; }
-            return (Pt1 == ls.Pt1 && Pt2 == ls.Pt2) || (Pt1 == ls.Pt2 && Pt2 == ls.Pt1);
+            return (P1 == ls.P1 && P2 == ls.P2) || (P1 == ls.P2 && P2 == ls.P1);
         }
 
         public static bool operator ==(LineSegment ls1, LineSegment ls2) => ls1.Equals(ls2);
         public static bool operator !=(LineSegment ls1, LineSegment ls2) => !(ls1 == ls2);
 
-        public override string ToString() => $"{Pt1} -> {Pt2}";
+        public override string ToString() => $"{P1} -> {P2}";
     }
 }
