@@ -14,6 +14,8 @@ namespace _2019_day_3_crossed_wires
         public int MinY { get; }
         public int MaxY { get; }
 
+        public int Length { get; }
+
         public LineSegment(Point p1, Point p2)
         {
             P1 = p1;
@@ -31,6 +33,7 @@ namespace _2019_day_3_crossed_wires
             MaxX = Math.Max(P1.X, P2.X);
             MinY = Math.Min(P1.Y, P2.Y);
             MaxY = Math.Max(P1.Y, P2.Y);
+            Length = IsHorizontal ? MaxX - MinX : MaxY - MinY;
         }
 
         public bool IsOverlapping(LineSegment other)

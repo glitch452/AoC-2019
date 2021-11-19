@@ -9,7 +9,7 @@ namespace _2019_day_3_crossed_wires
     public class CrossedWires
     {
         const string INVALID_INPUT_MSG = "Invalid Input. Please provide a comma separated list of directions i.e. U2,D5,R6,L1";
-        static readonly Regex DIR_PATTERN = new Regex(@"^([UDLR])([1-9][0-9]*)$");
+        static readonly Regex DIR_PATTERN = new (@"^([UDLR])([1-9][0-9]*)$");
 
         public (string direction, int magnitude)[] Instructions1 { get; }
         public (string direction, int magnitude)[] Instructions2 { get; }
@@ -18,6 +18,7 @@ namespace _2019_day_3_crossed_wires
         public List<LineSegment> Segments2 { get; }
 
         public Point ClosestIntersection { get; private set; }
+        public Point FewestStepIntersection { get; private set; }
 
 
         public CrossedWires(string wire1, string wire2)
@@ -44,7 +45,7 @@ namespace _2019_day_3_crossed_wires
                 foreach (var seg2 in Segments2)
                 {
                     var intersection = seg1.GetIntersectionWithBestManDist(seg2);
-                    if (!(intersection is null) &&
+                    if (intersection is not null &&
                         intersection.ManhattanDistance > 0 &&
                         (ClosestIntersection is null || intersection.ManhattanDistance < ClosestIntersection.ManhattanDistance)
                        )
@@ -54,8 +55,34 @@ namespace _2019_day_3_crossed_wires
                 }
             }
 
-            return ClosestIntersection is null ? 0 : ClosestIntersection.ManhattanDistance;
+            return ClosestIntersection is null ? -1 : ClosestIntersection.ManhattanDistance;
         }
+
+        //public int ComputeFewestSteps()
+        //{
+        //    FewestStepIntersection = null;
+
+        //    var wire1_length = 0;
+        //    foreach (var seg1 in Segments1)
+        //    {
+        //        var wire2_length = 0;
+        //        foreach (var seg2 in Segments2)
+        //        {
+        //            var intersection = seg1.GetIntersectionWithFewestSteps(seg2);
+        //            if (!(intersection is null) &&
+        //                intersection.ManhattanDistance > 0 &&
+        //                (ClosestIntersection is null || intersection.ManhattanDistance < ClosestIntersection.ManhattanDistance)
+        //               )
+        //            {
+        //                ClosestIntersection = intersection;
+        //            }
+        //            wire2_length += seg2.Length;
+        //        }
+        //        wire1_length += seg1.Length;
+        //    }
+
+        //    return FewestStepIntersection is null ? -1 : ClosestIntersection.ManhattanDistance;
+        //}
 
         static List<LineSegment> ConvertInstructionsToSegments((string direction, int magnitude)[] instructions)
         {

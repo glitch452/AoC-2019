@@ -134,5 +134,48 @@ namespace _2019_day_3_crossed_wires_tests
             Assert.Equal(expected6, ls7.GetIntersectionWithBestManDist(ls8));
         }
 
+        [Fact]
+        public void ItShouldComputeTheCorrectLengthHorixontally()
+        {
+            var point1 = new Point(6, 8);
+            var point2 = new Point(2, 8);
+            var point3 = new Point(0, 8);
+            var point4 = new Point(-2, 8);
+            var point5 = new Point(-6, 8);
+
+            Assert.Equal(4, (new LineSegment(point1, point2)).Length);
+            Assert.Equal(4, (new LineSegment(point2, point1)).Length);
+            Assert.Equal(6, (new LineSegment(point1, point3)).Length);
+            Assert.Equal(6, (new LineSegment(point3, point1)).Length);
+            Assert.Equal(4, (new LineSegment(point2, point4)).Length);
+            Assert.Equal(4, (new LineSegment(point4, point2)).Length);
+            Assert.Equal(6, (new LineSegment(point3, point5)).Length);
+            Assert.Equal(6, (new LineSegment(point5, point3)).Length);
+            Assert.Equal(4, (new LineSegment(point4, point5)).Length);
+            Assert.Equal(4, (new LineSegment(point5, point4)).Length);
+        }
+
+        [Fact]
+        public void ItShouldComputeTheCorrectLengthVertically()
+        {
+            var point1 = new Point(8, 6);
+            var point2 = new Point(8, 2);
+            var point3 = new Point(8, 0);
+            var point4 = new Point(8, -2);
+            var point5 = new Point(8, -6);
+
+            Assert.Equal(4, (new LineSegment(point1, point2)).Length);
+            Assert.Equal(4, (new LineSegment(point2, point1)).Length);
+            Assert.Equal(6, (new LineSegment(point1, point3)).Length);
+            Assert.Equal(6, (new LineSegment(point3, point1)).Length);
+            Assert.Equal(4, (new LineSegment(point2, point4)).Length);
+            Assert.Equal(4, (new LineSegment(point4, point2)).Length);
+            Assert.Equal(6, (new LineSegment(point3, point5)).Length);
+            Assert.Equal(6, (new LineSegment(point5, point3)).Length);
+            Assert.Equal(4, (new LineSegment(point4, point5)).Length);
+            Assert.Equal(4, (new LineSegment(point5, point4)).Length);
+        }
+
     }
 }
+    

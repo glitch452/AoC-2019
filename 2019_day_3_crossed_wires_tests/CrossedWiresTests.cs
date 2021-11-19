@@ -86,12 +86,11 @@ namespace _2019_day_3_crossed_wires_tests
         }
 
         [Fact]
-        public void ItShouldProduceAScoreOfZeroWithNoIntersections()
+        public void ItShouldProduceANegativeScoreoWithNoIntersections()
         {
             var cw = new CrossedWires("L4", "U5");
             var score = cw.ComputeClosestIntersection();
-            var expected_score = 0;
-            Assert.Equal(expected_score, score);
+            Assert.True(score < 0);
         }
 
         [Fact]
