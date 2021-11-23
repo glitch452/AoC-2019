@@ -5,44 +5,35 @@ namespace _2019_day_6_universal_orbit_map
 {
     public class SpaceObject
     {
-
         public string Name;
         public SpaceObject OrbitParent;
-        public List<SpaceObject> OrbitChildren { get; }
-        public int TotalOrbits { get; private set; }
+        int _totalOrbits = -1;
 
-        public SpaceObject(string name, SpaceObject orbitParent = null, List<SpaceObject> orbitChildren = null)
+        public SpaceObject(string name, SpaceObject orbitParent = null)
         {
             Name = name;
             OrbitParent = orbitParent;
-            if (orbitChildren is not null)
-            {
-                OrbitChildren = orbitChildren;
-            }
-            else
-            {
-                OrbitChildren = new List<SpaceObject>();
-            }
-            TotalOrbits = -1;
+            _totalOrbits = -1;
         }
 
-        public int ComputeTotalOrbits()
+
+        public int TotalOrbits
         {
-            if (TotalOrbits < 0)
+            get
             {
-                TotalOrbits = 0;
-                if (OrbitParent != null)
+                if (_totalOrbits < 0)
                 {
-                    TotalOrbits += 1 + OrbitParent.ComputeTotalOrbits();
+                    _totalOrbits = 0;
+                    if (OrbitParent is not null) { _totalOrbits += 1 + OrbitParent.TotalOrbits; }
                 }
+                return _totalOrbits;
             }
-            return TotalOrbits;
         }
 
         public IEnumerable<SpaceObject> GetRouteFromCOM()
         {
-            var output = new List<SpaceObject>();
-            var current = this.OrbitParent;
+            var output = new List<SpaceObject>(TotalOrbits);
+            var current = OrbitParent;
 
             while (current != null)
             {

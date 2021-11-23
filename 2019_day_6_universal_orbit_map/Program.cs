@@ -8,67 +8,55 @@ namespace _2019_day_6_universal_orbit_map
     {
         static void Main(string[] args)
         {
-
             //var map = new Program("./test_map.txt");
             //var map = new Program("./test_map_2.txt"); // 54, 4
             var map = new Program("./mercury_map.txt"); // 150150, 352
 
             Console.WriteLine($"The total orbits is: {map.ComputeTotalOrbits()}");
             Console.WriteLine($"The minimum transfers is: {map.ComputeMinimumTransfers()}");
-
         }
 
         const string INVALID_INPUT_MSG = "Invalid Input. An orbit command must be in the format: 'name1)name2'";
         static readonly Regex ORBIT_MAP_PATTERN = new(@"^([A-Za-z0-9]+)\)([A-Za-z0-9]+)$");
 
-        Dictionary<string, SpaceObject> IngestMap;
-        readonly SpaceObject CenterOfMass;
+        readonly Dictionary<string, SpaceObject> SpaceObjectDict;
 
 
         public Program(string orbitMapFileName)
         {
-            CenterOfMass = CreateSpaceObjectTree(orbitMapFileName);
+            SpaceObjectDict = CreateSpaceObjectTree(orbitMapFileName);
         }
 
         public int ComputeTotalOrbits()
         {
             var total = 0;
-            foreach (var spaceObject in IngestMap.Values)
+            foreach (var spaceObject in SpaceObjectDict.Values)
             {
-                total += spaceObject.ComputeTotalOrbits();
+                total += spaceObject.TotalOrbits;
             }
             return total;
         }
 
         public int ComputeMinimumTransfers(string a = "YOU", string b = "SAN")
         {
-            var aExists = IngestMap.TryGetValue(a, out SpaceObject aSpaceObject);
-            var bExists = IngestMap.TryGetValue(b, out SpaceObject bSpaceObject);
+            var aExists = SpaceObjectDict.TryGetValue(a, out SpaceObject aSpaceObject);
+            var bExists = SpaceObjectDict.TryGetValue(b, out SpaceObject bSpaceObject);
 
-            if (!aExists)
-            {
-                throw new ArgumentException($"A SpaceObject with the name '{a}' does not exist.");
-            }
-            if (!bExists)
-            {
-                throw new ArgumentException($"A SpaceObject with the name '{b}' does not exist.");
-            }
+            if (!aExists) { throw new ArgumentException($"A SpaceObject with the name '{a}' does not exist."); }
+            if (!bExists) { throw new ArgumentException($"A SpaceObject with the name '{b}' does not exist."); }
 
             var aRoute = aSpaceObject.GetRouteFromCOM().GetEnumerator();
             var bRoute = bSpaceObject.GetRouteFromCOM().GetEnumerator();
 
-            while (aRoute.Current == bRoute.Current)
-            {
-                aRoute.MoveNext();
-                bRoute.MoveNext();
-            }
+            while (aRoute.Current == bRoute.Current) { aRoute.MoveNext(); bRoute.MoveNext(); }
+            var nearestCommonAncestor = aRoute.Current.OrbitParent;
 
-            return aSpaceObject.OrbitParent.TotalOrbits + bSpaceObject.OrbitParent.TotalOrbits - (2 * (aRoute.Current.TotalOrbits - 1));
+            return aSpaceObject.OrbitParent.TotalOrbits + bSpaceObject.OrbitParent.TotalOrbits - (2 * nearestCommonAncestor.TotalOrbits);
         }
 
-        SpaceObject CreateSpaceObjectTree(string orbitMapFileName)
+        static Dictionary<string, SpaceObject> CreateSpaceObjectTree(string orbitMapFileName)
         {
-            IngestMap = new Dictionary<string, SpaceObject>();
+            var spaceObjectDict = new Dictionary<string, SpaceObject>();
 
             string[] lines = System.IO.File.ReadAllLines(orbitMapFileName);
             foreach (var line in lines)
@@ -79,8 +67,8 @@ namespace _2019_day_6_universal_orbit_map
                 var aName = match.Groups[1].ToString();
                 var bName = match.Groups[2].ToString();
 
-                var aExists = IngestMap.TryGetValue(aName, out SpaceObject aSpaceObj);
-                var bExists = IngestMap.TryGetValue(bName, out SpaceObject bSpaceObj);
+                var aExists = spaceObjectDict.TryGetValue(aName, out SpaceObject aSpaceObj);
+                var bExists = spaceObjectDict.TryGetValue(bName, out SpaceObject bSpaceObj);
 
                 if (aExists && bExists && bSpaceObj.OrbitParent == aSpaceObj)
                 {
@@ -90,29 +78,23 @@ namespace _2019_day_6_universal_orbit_map
                 if (!aExists)
                 {
                     aSpaceObj = new SpaceObject(aName);
-                    IngestMap.Add(aName, aSpaceObj);
-                    //Console.WriteLine($"Creating {aName}");
+                    spaceObjectDict.Add(aName, aSpaceObj);
                 }
                 if (!bExists)
                 {
                     bSpaceObj = new SpaceObject(bName, aSpaceObj);
-                    IngestMap.Add(bName, bSpaceObj);
-                    //Console.WriteLine($"Creating {bName}");
+                    spaceObjectDict.Add(bName, bSpaceObj);
                 }
 
                 bSpaceObj.OrbitParent = aSpaceObj;
-                aSpaceObj.OrbitChildren.Add(bSpaceObj);
-                //Console.WriteLine($"Adding {bSpaceObj.Name} to the orbit of {aSpaceObj.Name}");
             }
 
-            var comExists = IngestMap.TryGetValue("COM", out SpaceObject centerOfMass);
-
-            if (!comExists)
+            if (!spaceObjectDict.ContainsKey("COM"))
             {
                 throw new ArgumentException($"The map does not contain a Center of Mass.");
             }
 
-            return centerOfMass;
+            return spaceObjectDict;
         }
     }
 }
