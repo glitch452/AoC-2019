@@ -9,7 +9,7 @@ namespace _2019_day_3_crossed_wires
     public class CrossedWires
     {
         const string INVALID_INPUT_MSG = "Invalid Input. Please provide a comma separated list of directions i.e. U2,D5,R6,L1";
-        static readonly Regex DIR_PATTERN = new (@"^([UDLR])([1-9][0-9]*)$");
+        static readonly Regex DIR_PATTERN = new(@"^([UDLR])([1-9][0-9]*)$");
 
         public (string direction, int magnitude)[] Instructions1 { get; }
         public (string direction, int magnitude)[] Instructions2 { get; }
@@ -117,7 +117,8 @@ namespace _2019_day_3_crossed_wires
         {
             if (wire is null || wire.Length < 1) { throw new ArgumentException(INVALID_INPUT_MSG); }
 
-            var result = wire.Split(',').Select((instruction, i) => {
+            var result = wire.Split(',').Select((instruction, i) =>
+            {
                 var match = DIR_PATTERN.Match(instruction);
                 if (!match.Success) { throw new ArgumentException(INVALID_INPUT_MSG); }
 

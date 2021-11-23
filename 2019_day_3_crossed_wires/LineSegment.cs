@@ -46,9 +46,12 @@ namespace _2019_day_3_crossed_wires
 
             Length = IsHorizontal ? MaxX - MinX : MaxY - MinY;
 
-            if (IsHorizontal) {
+            if (IsHorizontal)
+            {
                 Direction = P1.X < P2.X ? Direction.R : Direction.L;
-            } else {
+            }
+            else
+            {
                 Direction = P1.Y < P2.Y ? Direction.U : Direction.D;
             }
         }
@@ -58,7 +61,7 @@ namespace _2019_day_3_crossed_wires
             return P1.Y == other.P1.Y && (!(MinX > other.MaxX || MaxX < other.MinX));
         }
 
-        
+
         public Point GetIntersectionWithFewestSteps(LineSegment other)
         {
             var h = IsHorizontal ? this : other;
@@ -125,7 +128,7 @@ namespace _2019_day_3_crossed_wires
 
                 return new Point(x, y);
             }
-            
+
             return null;
         }
 

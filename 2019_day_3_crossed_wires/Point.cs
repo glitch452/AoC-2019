@@ -3,7 +3,7 @@ namespace _2019_day_3_crossed_wires
 {
     public class Point
     {
-        public int X { get; }   
+        public int X { get; }
         public int Y { get; }
         public int ManhattanDistance { get; }
 

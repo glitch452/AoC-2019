@@ -178,4 +178,3 @@ namespace _2019_day_3_crossed_wires_tests
 
     }
 }
-    
